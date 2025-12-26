@@ -1,59 +1,57 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         RealEstateAgency agency = new RealEstateAgency("Astana Agency", "Astana", 10, 5);
-        Property p1 = new Apartment("Qabanbay batyr 23", 120, 200000);
-        Property p2 = new House("Turan 55", 200, 350000);
-        Property p3 = new Apartment("Syganaq 16/1", 80, 120000);
-        Realtor r1 = new Realtor(1, "Shangerey Akerke", "7 777 123 4567", 5, 4.0);
-        Realtor r2 = new Realtor(2, "Kairat Nurtas", "7 705 105 1234", 10, 4.8);
+        Property property1 = new Property("Qabanbay batyr 23", 120, 2000);
+        Property property2 = new Property("Turan 55", 80, 120000);
+        Property property3 = new Property("Syganaq 16/1", 150, 350000);
+        Realtor realtor1 = new Realtor(1, "Shangerey Akerke", "7 777 123 4567", 5, 4.0);
+        Realtor realtor2 = new Realtor(2, "Kairat Nurtas", "7 705 105 1234", 10, 4.8);
+        agency.addProperty(property1);
+        agency.addProperty(property2);
+        agency.addProperty(property3);
+        agency.addRealtor(realtor1);
+        agency.addRealtor(realtor2);
 
-        agency.addProperty(p1);
-        agency.addProperty(p2);
-        agency.addProperty(p3);
-        agency.addRealtor(r1);
-        agency.addRealtor(r2);
-        System.out.println("\nAdd a new apartment");
-
-        System.out.print("Address: ");
-        scanner.nextLine();
-        String address = scanner.nextLine();
-
-        System.out.print("Square footage: ");
-        int square = scanner.nextInt();
-
-        System.out.print("Price: ");
-        double price = scanner.nextDouble();
-
-        Property userApartment = new Apartment(address, square, price);
-        agency.addProperty(userApartment);
-
-        System.out.println("\n=== Agency Info ===");
+        System.out.println("=== Real Estate Agency ===");
         agency.printInfo();
-        System.out.println("\n=== All Properties ===");
-        for (Property p : agency.getProperties()) {
-            if (p != null)
-                System.out.println(p);
+
+        Property[] properties = {property1, property2, property3};
+        Property largest = properties[0], smallest = properties[0];
+        double total = 0;
+
+        for (int i = 0; i < properties.length; i++) {
+            total += properties[i].getPrice();
+            if (properties[i].getSquareFootage() > largest.getSquareFootage())
+                largest = properties[i];
+            if (properties[i].getSquareFootage() < smallest.getSquareFootage())
+                smallest = properties[i];
         }
-        System.out.println("\n=== Sorted by Price ===");
-        agency.sortPropertiesByPrice();
-        for (Property p : agency.getProperties()) {
-            if (p != null)
-                System.out.println(p);
+        System.out.println("\nLargest: " + largest.getAddress() + " (" + largest.getSquareFootage() + "m²)");
+        System.out.println("Smallest: " + smallest.getAddress() + " (" + smallest.getSquareFootage() + "m²)");
+        System.out.println("Total Value of the Properties: " + total + " $");
+
+        Property mostExpensive = agency.findMostExpensiveProperty();
+        System.out.println("\n=== Most Expensive Property ===");
+        if (mostExpensive != null) {
+            System.out.println("Address: " + mostExpensive.getAddress());
+            System.out.println("Price: $" + mostExpensive.getPrice());
+
+            Realtor mostExpRealtor = agency.findMostExperiencedRealtor();
+            System.out.println("\nMost Experienced Realtor: " + mostExpRealtor.getName());
+
+            double commission = mostExpRealtor.calculateCost(mostExpensive.getPrice());
+            System.out.println("Commission for the most expensive property" + mostExpensive.getAddress() + ": $" + commission);
         }
-        System.out.println("\n=== Available Properties ===");
-        for (Property p : agency.getAvailableProperties()) {
-            System.out.println(p);
+        System.out.println("\n=== Selling Property ===");
+        Property cheapest = properties[0];
+        for (int i = 1; i < properties.length; i++) {
+            if (properties[i].getPrice() < cheapest.getPrice()) {
+                cheapest = properties[i];
+            }
         }
-        System.out.println("\n===Tax===");
-        System.out.println(p1.getAddress() + " tax: $" + p1.calculateTax());
-        System.out.println(p2.getAddress() + " tax: $" + p2.calculateTax());
-        System.out.println("\n=== Most Experienced Realtor ===");
-        Realtor best = agency.findMostExperiencedRealtor();
-        System.out.println(best);
-        System.out.println("\nCommission: " + best.calculateCost(p2.getPrice()));
-        scanner.close();
+        System.out.println("Property to sell (cheapest): " + cheapest.getAddress());
+        System.out.println("Is it available: " + cheapest.isAvailable());
+        cheapest.markSold();
+        System.out.println("After: is it available? " + cheapest.isAvailable());
     }
 }

@@ -1,42 +1,42 @@
-public class Realtor {
+public class Realtor{
     private int id;
     private String name;
     private String phoneNumber;
     private int yearsOfExperience;
     private double commissionRate;
-
-    public Realtor(int id, String name, String phoneNumber, int yearsOfExperience, double commissionRate) {
+    public Realtor(){}
+    public Realtor(int id, String name, String phoneNumber, int yearsOfExperience, double commissionRate){
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.yearsOfExperience = yearsOfExperience;
         this.commissionRate = commissionRate;
     }
+    public int getId() {
+        return id;}
+    public void setId(int id) {
+        this.id = id;}
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public int getYearsOfExperience() { return yearsOfExperience; }
-    public double getCommissionRate() { return commissionRate; }
+    public String getName() {
+        return name;}
+    public void setName(String name) {
+        this.name = name;}
 
-    public double calculateCost(double price) {
-        return price * (commissionRate / 100);
-    }
+    public String getPhoneNumber() {
+        return phoneNumber;}
+    public void setNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;}
 
-    @Override
-    public String toString() {
-        return name + " | " + yearsOfExperience + " years | " + commissionRate + "%";
-    }
+    public int getYearsOfExperience() {
+        return yearsOfExperience;}
+    public void setYearsOfExperience(int yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Realtor)) return false;
-        Realtor r = (Realtor) o;
-        return id == r.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
+    public double getCommissionRate() {
+        return commissionRate;}
+    public void setCommissionRate(double commissionRate) {
+        this.commissionRate = commissionRate;}
+    public double calculateCost(double price){
+        return price * (commissionRate /100);
     }
 }

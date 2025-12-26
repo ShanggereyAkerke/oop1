@@ -5,85 +5,78 @@ public class RealEstateAgency {
     private Realtor[] realtors;
     private int propertyCount;
     private int realtorCount;
-
-    public RealEstateAgency(String name, String location, int maxProperties, int maxRealtors) {
+    public RealEstateAgency(String name, String location, int maxProperties, int maxRealtors ) {
         this.name = name;
         this.location = location;
-        properties = new Property[maxProperties];
-        realtors = new Realtor[maxRealtors];
+        this.properties = new Property[maxProperties];
+        this.realtors = new Realtor[maxRealtors];
+        this.propertyCount = 0;
+        this.realtorCount = 0;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {this.name = name;
+    }
+    public String getLocation() {return location;
+    }
+    public void setLocation(String location) {this.location = location;
+    }
+    public Property[] getProperties() {return properties;
+    }
+    public void setProperties(Property[] properties) {this.properties = properties;
+    }
+
+    public Realtor[] getRealtors() {return realtors;
+    }
+    public void setRealtors(Realtor[] realtors) {this.realtors = realtors;
+    }
+    public int getPropertyNumber() {return propertyCount;
+    }
+    public int getRealtorsNumber() {return realtorCount;
     }
     public void addProperty(Property property) {
-        if (propertyCount < properties.length) {
-            properties[propertyCount++] = property;
+        if (propertyCount<properties.length){
+            properties[propertyCount] = property;
+            propertyCount++;
+        }else{
+            System.out.println("Cannot add more properties");
         }
     }
     public void addRealtor(Realtor realtor) {
-        if (realtorCount < realtors.length) {
-            realtors[realtorCount++] = realtor;
+        if (realtorCount<realtors.length){
+            realtors[realtorCount] = realtor;
+            realtorCount++;
+        }
+        else {
+            System.out.println("Cannot add more realtors");
         }
     }
-    public Property[] getProperties() {
-        return properties;
-    }
-    public Property findMostExpensiveProperty() {
-        if (propertyCount == 0) return null;
-        Property max = properties[0];
-        for (int i = 1; i < propertyCount; i++) {
-            if (properties[i].getPrice() > max.getPrice()) {
-                max = properties[i];
+    public  Property findMostExpensiveProperty(){
+        if(propertyCount==0)
+            return null;
+        Property mostExpensiveProperty = properties[0];
+        for(int i=1;i<propertyCount;i++){
+            if(properties[i].getPrice()>mostExpensiveProperty.getPrice()){
+                mostExpensiveProperty = properties[i];
             }
         }
-        return max;
+        return mostExpensiveProperty;
     }
-    public Realtor findMostExperiencedRealtor() {
-        if (realtorCount == 0) return null;
-        Realtor best = realtors[0];
-        for (int i = 1; i < realtorCount; i++) {
-            if (realtors[i].getYearsOfExperience() > best.getYearsOfExperience()) {
-                best = realtors[i];
+    public  Realtor findMostExperiencedRealtor(){
+        if(realtorCount==0)
+            return null;
+        Realtor mostExperiencedRealtor = realtors[0];
+        for(int i=1;i<realtorCount;i++){
+            if(realtors[i].getYearsOfExperience()>mostExperiencedRealtor.getYearsOfExperience()){
+                mostExperiencedRealtor = realtors[i];
             }
         }
-        return best;
+        return mostExperiencedRealtor;
     }
-
-    public Property findPropertyByAddress(String address) {
-        for (int i = 0; i < propertyCount; i++) {
-            if (properties[i].getAddress().equalsIgnoreCase(address)) {
-                return properties[i];
-            }
-        }
-        return null;
-    }
-    public Property[] getAvailableProperties() {
-        int count = 0;
-        for (int i = 0; i < propertyCount; i++) {
-            if (properties[i].isAvailable()) count++;
-        }
-        Property[] result = new Property[count];
-        int index = 0;
-
-        for (int i = 0; i < propertyCount; i++) {
-            if (properties[i].isAvailable()) {
-                result[index++] = properties[i];
-            }
-        }
-        return result;
-    }
-    public void sortPropertiesByPrice() {
-        for (int i = 0; i < propertyCount - 1; i++) {
-            for (int j = 0; j < propertyCount - i - 1; j++) {
-                if (properties[j].getPrice() > properties[j + 1].getPrice()) {
-                    Property temp = properties[j];
-                    properties[j] = properties[j + 1];
-                    properties[j + 1] = temp;
-                }
-            }
-        }
-    }
-    public void printInfo() {
-        System.out.println("Agency: " + name);
+    public void printInfo(){
+        System.out.println("Name of the Agency: " + name);
         System.out.println("Location: " + location);
-        System.out.println("Properties: " + propertyCount);
         System.out.println("Realtors: " + realtorCount);
     }
 }
