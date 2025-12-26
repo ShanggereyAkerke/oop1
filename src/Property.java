@@ -1,43 +1,38 @@
-public class Property {
-    private String address;
-    private int squareFootage;
-    private double price;
-    private boolean isAvailable;
+public abstract class Property {
+    protected String address;
+    protected int squareFootage;
+    protected double price;
+    protected boolean isAvailable;
 
-    public Property(){
+    public Property(String address, int squareFootage, double price) {
+        this.address = address;
+        this.squareFootage = squareFootage;
+        this.price = price;
+        this.isAvailable = true;
     }
-    public Property(String address, int squareFootage, double price){
-        this.address=address;
-        this.squareFootage=squareFootage;
-        this.price=price;
-        this.isAvailable=true;
-    }
-    public String getAddress(){
-        return address;
-    }
-    public void setAddress(String address){
-        this.address=address;
-    }
-    public int getSquareFootage(){
-        return squareFootage;
-    }
-    public void setSquareFootage(int squareFootage){
-        this.squareFootage=squareFootage;
-    }
-    public double getPrice(){
-        return price;
-    }
-    public void setPrice(double price){
-        this.price=price;
-    }
-    public boolean isAvailable(){
-        return isAvailable;
-    }
-    public void setAvailable(boolean available){
-        isAvailable=available;
-    }
+    public abstract double calculateTax();
+
+    public String getAddress() { return address; }
+    public int getSquareFootage() { return squareFootage; }
+    public double getPrice() { return price; }
+    public boolean isAvailable() { return isAvailable; }
+
     public void markSold() {
-        this.isAvailable = false;
-        System.out.println(address + " has been sold!");
+        isAvailable = false;
+    }
+    @Override
+    public String toString() {
+        return address + ", " + squareFootage + "m², $" + price;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Property)) return false;
+        Property p = (Property) o;
+        return address.equals(p.address);
+    }
+    @Override
+    public int hashCode() {
+        return address.hashCode();
     }
 }
